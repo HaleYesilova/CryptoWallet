@@ -7,16 +7,24 @@ import {
     FlatList,
     TouchableOpacity,
     Image,
-    ImageBackground
+    ImageBackground,
+    LogBox
 } from 'react-native';
 
-import { dummyData, COLORS, SIZES, FONTS, icons, images} from '../constants';
+import { PriceAlert, TransactionHistory } from "../components"
+import { dummyData, COLORS, SIZES, FONTS, icons, images} from "../constants"
 
 const Home = ({ navigation }) => {
 
-    const [trending, setTrending] = React.useState(dummyData.trendingCurrencies)
+    const [trending, setTrending] = React.useState(dummyData.
+        trendingCurrencies)  
+    const [transactionHistory, setTransactionHistory] = React.useState
+    (dummyData.transactionHistory)
 
 
+    React.useEffect(() => {
+        LogBox.ignoreLogs(['VirtualizedLists should never be nested'])
+    }, [])
 
     function renderHeader() {
 
@@ -135,10 +143,63 @@ const Home = ({ navigation }) => {
             </View>
         )
     }
+
+    function renderAlert() {
+        return (
+            <PriceAlert />
+        )
+
+    }
+
+    function renderNotice() {
+        return (
+            <View
+            style={{
+                marginTop: SIZES.padding,
+                marginHorizontal: SIZES.padding,
+                padding: 20,
+                borderRadius: SIZES.radius,
+                backgroundColor: COLORS.secondary,
+                ...styles.shadow
+            }}
+            >
+                <Text style={{ color: COLORS.white, ...FONTS.h3 }}>Investing Safety</Text>
+                <Text style={{ marginTop: SIZES.base, color: COLORS.white, ...FONTS.body4, lineheight:18 }}>It's very difficult to time an investment,
+                    especially when the market is volatile. Learn how to use
+                    dollar cost averaging to your advantage.</Text>
+
+                    <TouchableOpacity
+                        style={{
+                        marginTop: SIZES.base
+                        }}
+                        onPress={() => console.log("Learn More")}
+                        >
+                            <Text style={{ textDecorationLine: 'underline', 
+                        color: COLORS.green, ...FONTS.h3 }}>Learn More</
+                        Text>
+
+                    </TouchableOpacity>
+            </View>
+        )
+    }
+
+    function renderTransactionHistory() {
+        
+    return (
+        <TransactionHistory
+            customContainerStyle={{ ...styles.shadow }}
+            history={transactionHistory}
+        />
+    )
+    }
+
     return (
         <ScrollView>
             <View style = {{ flex: 1, paddingBottom: 130 }}>
                 {renderHeader()}
+                {renderAlert()}
+                {renderNotice()}
+                {renderTransactionHistory()}
             </View>
         </ScrollView>
     )
