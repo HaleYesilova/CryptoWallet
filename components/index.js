@@ -1,5 +1,6 @@
 import PriceAlert from "./PriceAlert"
 import TransactionHistory from "./TransactionHistory";
+import HeaderBar from "./HeaderBar";
 
 
-export { PriceAlert, TransactionHistory  }
+export { PriceAlert, TransactionHistory, HeaderBar }
