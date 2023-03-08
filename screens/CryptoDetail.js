@@ -14,7 +14,7 @@ import { VictoryScatter, VictoryLine, VictoryChart, VictoryAxis }from "victory-n
 
 import { VictoryCustomTheme } from "../styles"
 
-import { HeaderBar, CurrencyLabel } from "../components"
+import { HeaderBar, CurrencyLabel, TextButton } from "../components"
 
 import { dummyData, COLORS, SIZES, FONTS, icons } from '../constants';
 
@@ -25,11 +25,18 @@ const CryptoDetail = ({ route, navigation }) => {
     
     const [selectedCurrency, setSelectedCurrency] = React.useState
     (null)
+   
+    const [chartOptions, setChartOptions] = React.useState(dummyData.chartOptions)
+    const [selectedOption, setSelectedOption] = React.useState(chartOptions[0])
 
     React.useEffect(() => {
         const {currency}  = route.params;
         setSelectedCurrency(currency)
     },  [])
+
+    function optionOnClickHandler(option) {
+        setSelectedOption(option)
+    }
 
     function renderChart() {
         return (
@@ -147,6 +154,39 @@ const CryptoDetail = ({ route, navigation }) => {
                 </Animated.ScrollView>
 
                 {/* Options */}
+                <View style={{
+                    width: "100%",
+                    paddingHorizontal: SIZES.padding,
+                    flexDirection: 'row',
+                    justifyContent: 'space-between'
+                }}>
+                    {
+                        chartOptions.map((option) => {
+                            return(
+                                <TextButton 
+                                key={'option-${option.id}'}
+                                label={option.label}
+                                customContainerStyle={{
+                                    height: 30,
+                                    width: 60,
+                                    borderRadius: 15,
+                                    backgroundColor: 
+                                    selectedOption.id == option.id ? COLORS.primary : COLORS.lightGray
+                                }}
+                                customLabelStyle={{
+                                    color: selectedOption.id == 
+                                    option.id ? COLORS.white : 
+                                    COLORS.gray, ...FONTS.body5
+                                }}
+                                onPress={() => 
+                                optionOnClickHandler(option)}
+                                /> 
+
+                            )
+                        })
+                    }
+
+                </View>
                 {/* Dots */}
             </View>
         )
