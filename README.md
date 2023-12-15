@@ -1,5 +1,5 @@
 # CryptoWallet
- App for cryptocurrency asset tracking 
+ App for cryptocurrency asset tracking developed with React Native.
 
 
 
